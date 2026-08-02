@@ -24,7 +24,7 @@
     "url": "https://github.com/abreufilho/vscode-spreadsheet-viewer/issues"
   },
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.125.0"
   },
   "categories": [
     "Data Science",
@@ -189,7 +189,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "oxlint .",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/*.mjs\" \"*.json\"",
     "test": "npm run typecheck && esbuild test/*.test.ts --bundle --platform=node --format=cjs --outdir=out/test --log-level=warning && node --test out/test/*.test.js",
     "vscode:prepublish": "npm run build",
@@ -200,16 +200,14 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/node": "^26.1.2",
-    "@types/vscode": "1.80",
+    "@types/vscode": "1.125",
     "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.1",
-    "eslint": "^10.8.0",
-    "globals": "^17.8.0",
+    "oxlint": "^1.76.0",
+    "oxlint-tsgolint": "^7.0.2001",
     "prettier": "^3.9.6",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.65.0"
+    "typescript": "^7.0.2"
   },
   "overrides": {
     "encoding-sniffer": "1.0.2"
