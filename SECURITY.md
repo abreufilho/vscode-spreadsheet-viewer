@@ -28,3 +28,24 @@ the preview:
 
 Parsing a workbook is delegated to SheetJS. A flaw in how it reads a file
 belongs upstream, but report it here as well and I will forward it.
+
+## Dismissed Code Scanning Alerts
+
+**`js/missing-origin-check` on the webview `message` listener.** The rule asks
+that a handler compare `event.origin` before trusting a message. It is dismissed
+here rather than fixed, for two reasons.
+
+Nothing else can post to this page. A VS Code webview runs in an iframe the
+editor creates, under a `vscode-webview://` origin generated per webview, and
+the Content Security Policy admits no remote content and no inline script of
+ours, so the page loads nothing that could message itself. The extension host is
+the only sender.
+
+There is also nothing sound to compare against. The origin is generated at
+runtime and differs between the desktop editor, the browser and Codespaces; VS
+Code publishes no constant for it and its own webview samples do not check it.
+Any comparison written here would be a guess, and a wrong guess silently stops
+the preview from ever rendering.
+
+The message is still validated: the handler reads `type` and ignores anything it
+does not recognise, so an unexpected message is discarded rather than acted on.
