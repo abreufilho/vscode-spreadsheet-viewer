@@ -1,0 +1,217 @@
+{
+  "name": "spreadsheet-viewer",
+  "displayName": "Spreadsheet Viewer",
+  "description": "CSV, TSV, and Excel viewer with sorting, filtering, and multi-sheet navigation.",
+  "version": "1.0.0",
+  "publisher": "abreufilho",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Antonio Abreu Filho",
+    "url": "https://abreufilho.com.br"
+  },
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#052e2b",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abreufilho/vscode-spreadsheet-viewer"
+  },
+  "homepage": "https://github.com/abreufilho/vscode-spreadsheet-viewer",
+  "bugs": {
+    "url": "https://github.com/abreufilho/vscode-spreadsheet-viewer/issues"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Data Science",
+    "Visualization"
+  ],
+  "keywords": [
+    "csv",
+    "tsv",
+    "excel",
+    "spreadsheet",
+    "viewer"
+  ],
+  "activationEvents": [
+    "onCustomEditor:spreadsheet-viewer.csvEditor",
+    "onCustomEditor:spreadsheet-viewer.excelEditor",
+    "onCommand:spreadsheetViewer.open"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "spreadsheetViewer.open",
+        "title": "Spreadsheet: Open Preview",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "spreadsheetViewer.refresh",
+        "title": "Spreadsheet: Refresh Preview"
+      },
+      {
+        "command": "spreadsheetViewer.clearState",
+        "title": "Spreadsheet: Reset Preview Layout"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "spreadsheetViewer.open",
+        "key": "shift+ctrl+v",
+        "when": "resourceExtname == .csv || resourceExtname == .tsv || resourceExtname == .tab || resourceExtname == .xlsx || resourceExtname == .xlsm"
+      }
+    ],
+    "languages": [
+      {
+        "id": "csv",
+        "aliases": [
+          "CSV"
+        ],
+        "extensions": [
+          ".csv"
+        ]
+      },
+      {
+        "id": "tsv",
+        "aliases": [
+          "TSV"
+        ],
+        "extensions": [
+          ".tsv",
+          ".tab"
+        ]
+      }
+    ],
+    "customEditors": [
+      {
+        "viewType": "spreadsheet-viewer.csvEditor",
+        "displayName": "CSV Preview",
+        "selector": [
+          {
+            "filenamePattern": "*.csv"
+          },
+          {
+            "filenamePattern": "*.tsv"
+          },
+          {
+            "filenamePattern": "*.tab"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "spreadsheet-viewer.excelEditor",
+        "displayName": "Excel Preview",
+        "selector": [
+          {
+            "filenamePattern": "*.xlsx"
+          },
+          {
+            "filenamePattern": "*.xlsm"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "configuration": {
+      "title": "Spreadsheet Viewer",
+      "properties": {
+        "spreadsheetViewer.csv.separator": {
+          "type": "string",
+          "default": "auto",
+          "description": "Field separator. Accepts a name (comma, semicolon, tab, pipe), a literal character, or auto to take it from the first line."
+        },
+        "spreadsheetViewer.csv.quoteMark": {
+          "type": "string",
+          "default": "\"",
+          "description": "Character that quotes a field. A quoted field may hold the separator and line breaks."
+        },
+        "spreadsheetViewer.csv.hasHeaders": {
+          "type": "boolean",
+          "default": true,
+          "description": "Read the first line as column names."
+        },
+        "spreadsheetViewer.csv.lineNumbers": {
+          "type": "string",
+          "default": "none",
+          "enum": [
+            "none",
+            "ordinal",
+            "source"
+          ],
+          "enumDescriptions": [
+            "No line number column.",
+            "Count rows in the grid, starting at one.",
+            "Show the line the row occupies in the file."
+          ],
+          "description": "Line number column shown at the left of the grid."
+        },
+        "spreadsheetViewer.csv.formatValues": {
+          "type": "string",
+          "default": "always",
+          "enum": [
+            "always",
+            "never"
+          ],
+          "enumDescriptions": [
+            "Render numeric fields with the configured precision.",
+            "Render every field exactly as it appears in the file."
+          ],
+          "description": "Whether numeric fields are formatted for display."
+        },
+        "spreadsheetViewer.csv.numberFormat": {
+          "type": "string",
+          "default": "g2",
+          "description": "Maximum number of decimal places, taken from the digits in the value. The default g2 means two."
+        },
+        "spreadsheetViewer.excel.showInfo": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the sheet name and its dimensions above the grid."
+        }
+      }
+    },
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "spreadsheetViewer.open",
+          "when": "resourceExtname == .csv || resourceExtname == .tsv || resourceExtname == .tab || resourceExtname == .xlsx || resourceExtname == .xlsm",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/*.mjs\" \"*.json\"",
+    "test": "npm run typecheck && esbuild test/*.test.ts --bundle --platform=node --format=cjs --outdir=out/test --log-level=warning && node --test out/test/*.test.js",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "tabulator-tables": "^6.3.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.1.2",
+    "@types/vscode": "1.80",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.8.0",
+    "globals": "^17.8.0",
+    "prettier": "^3.9.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0"
+  },
+  "overrides": {
+    "encoding-sniffer": "1.0.2"
+  }
+}
