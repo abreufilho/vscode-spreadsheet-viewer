@@ -1,0 +1,207 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#status {
+  padding: 12px;
+  font-size: 0.9em;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+#info-bar {
+  padding: 4px 12px;
+  font-size: 0.85em;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+#sheet-tabs {
+  display: flex;
+  gap: 0;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+
+.sheet-tab {
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85em;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.sheet-tab:hover {
+  background: var(--hover-bg);
+}
+
+.sheet-tab.active {
+  border-bottom-color: var(--accent-color);
+  font-weight: 600;
+}
+
+#grid {
+  flex: 1;
+  overflow: hidden;
+}
+
+.tabulator {
+  font-size: var(--vscode-font-size, 13px);
+}
+
+.row-number {
+  text-align: right;
+  opacity: 0.5;
+}
+
+/* Light theme */
+.theme-light {
+  --border-color: var(--vscode-panel-border, #e1e4e8);
+  --hover-bg: var(--vscode-list-hoverBackground, #f6f8fa);
+  --accent-color: var(--vscode-focusBorder, #0366d6);
+  --grid-bg: var(--vscode-editor-background, #ffffff);
+  --grid-fg: var(--vscode-editor-foreground, #24292e);
+  --grid-muted: var(--vscode-descriptionForeground, #586069);
+  --grid-header-bg: var(--vscode-sideBar-background, #f6f8fa);
+  --grid-row-bg: var(--vscode-editor-background, #ffffff);
+  --grid-row-alt-bg: var(--vscode-list-inactiveSelectionBackground, #fafbfc);
+  --grid-row-hover-bg: var(--vscode-list-hoverBackground, #f1f8ff);
+  --grid-input-bg: var(--vscode-input-background, #ffffff);
+  color: var(--grid-fg);
+  background: var(--grid-bg);
+}
+
+.theme-light .tabulator,
+.theme-light .tabulator .tabulator-tableholder,
+.theme-light .tabulator .tabulator-table {
+  background-color: var(--grid-bg);
+  border-color: var(--border-color);
+  color: var(--grid-fg);
+}
+
+.theme-light .tabulator .tabulator-header,
+.theme-light .tabulator .tabulator-header .tabulator-col {
+  background-color: var(--grid-header-bg);
+  border-color: var(--border-color);
+  color: var(--grid-fg);
+}
+
+.theme-light .tabulator .tabulator-header .tabulator-col-content,
+.theme-light .tabulator .tabulator-header .tabulator-col-title {
+  color: var(--grid-fg);
+}
+
+.theme-light .tabulator .tabulator-row,
+.theme-light .tabulator .tabulator-row.tabulator-row-odd {
+  background-color: var(--grid-row-bg);
+  border-color: var(--border-color);
+  color: var(--grid-fg);
+}
+
+.theme-light .tabulator .tabulator-row.tabulator-row-even {
+  background-color: var(--grid-row-alt-bg);
+}
+
+.theme-light .tabulator .tabulator-row:hover,
+.theme-light .tabulator .tabulator-row.tabulator-row-even:hover {
+  background-color: var(--grid-row-hover-bg);
+}
+
+.theme-light .tabulator .tabulator-cell {
+  border-color: var(--border-color);
+  color: var(--grid-fg);
+}
+
+.theme-light .tabulator .tabulator-header .tabulator-header-filter input {
+  background: var(--grid-input-bg);
+  color: var(--grid-fg);
+  border-color: var(--border-color);
+}
+
+/* Dark theme */
+.theme-dark {
+  --border-color: var(--vscode-panel-border, #3c3c3c);
+  --hover-bg: var(--vscode-list-hoverBackground, #2a2d2e);
+  --accent-color: var(--vscode-focusBorder, #007fd4);
+  --grid-bg: var(--vscode-editor-background, #1e1e1e);
+  --grid-fg: var(--vscode-editor-foreground, #d4d4d4);
+  --grid-muted: var(--vscode-descriptionForeground, #9da5b4);
+  --grid-header-bg: var(--vscode-sideBar-background, #252526);
+  --grid-row-bg: var(--vscode-editor-background, #1e1e1e);
+  --grid-row-alt-bg: var(--vscode-list-inactiveSelectionBackground, #2a2d2e);
+  --grid-row-hover-bg: var(--vscode-list-hoverBackground, #2a2d2e);
+  --grid-input-bg: var(--vscode-input-background, #1e1e1e);
+  color: var(--grid-fg);
+  background: var(--grid-bg);
+}
+
+.theme-dark .tabulator,
+.theme-dark .tabulator .tabulator-tableholder,
+.theme-dark .tabulator .tabulator-table {
+  background-color: var(--grid-bg) !important;
+  border-color: var(--border-color);
+  color: var(--grid-fg) !important;
+}
+
+.theme-dark .tabulator .tabulator-header,
+.theme-dark .tabulator .tabulator-header .tabulator-col,
+.theme-dark .tabulator .tabulator-header .tabulator-col-row-handle {
+  background-color: var(--grid-header-bg) !important;
+  border-color: var(--border-color);
+  color: var(--grid-fg) !important;
+}
+
+.theme-dark .tabulator .tabulator-header .tabulator-col-content,
+.theme-dark .tabulator .tabulator-header .tabulator-col-title {
+  color: var(--grid-fg) !important;
+}
+
+.theme-dark .tabulator .tabulator-row,
+.theme-dark .tabulator .tabulator-row.tabulator-row-odd {
+  background-color: var(--grid-row-bg) !important;
+  border-color: var(--border-color);
+  color: var(--grid-fg) !important;
+}
+
+.theme-dark .tabulator .tabulator-row.tabulator-row-even {
+  background-color: var(--grid-row-alt-bg) !important;
+}
+
+.theme-dark .tabulator .tabulator-row:hover,
+.theme-dark .tabulator .tabulator-row.tabulator-row-even:hover {
+  background-color: var(--grid-row-hover-bg) !important;
+}
+
+.theme-dark .tabulator .tabulator-row .tabulator-cell {
+  background-color: transparent !important;
+  border-color: var(--border-color);
+  color: var(--grid-fg) !important;
+}
+
+.theme-dark .tabulator .tabulator-row .tabulator-cell.row-number {
+  color: var(--grid-muted) !important;
+}
+
+.theme-dark .tabulator .tabulator-header .tabulator-header-filter input {
+  background: var(--grid-input-bg);
+  color: var(--grid-fg);
+  border-color: var(--border-color);
+}
+
+.theme-dark .sheet-tab {
+  color: var(--grid-muted);
+}
+
+.theme-dark .sheet-tab.active {
+  color: var(--grid-fg);
+}
