@@ -196,7 +196,7 @@
     "package": "vsce package"
   },
   "dependencies": {
-    "tabulator-tables": "^6.3.0",
+    "tabulator-tables": "^6.5.3",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
